@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">  
+  <modelVersion>4.0.0</modelVersion>  
+  <groupId>org.example</groupId>  
+  <artifactId>maven_web01</artifactId>  
+  <version>1.0-SNAPSHOT</version>
+  <!-- 打包方式 如果java项目则用 jar
+       如果是web 项目 则用 war
+       <packging>war</packging>
+       java 项目
+       <packging>jar</packging>
+  -->
+  <packaging>war</packaging>
+
+  <!--JDK 版本-->
+  <properties>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <!--
+            依赖范围:同来设置依赖的有效期
+                    编译期   测试期   运行期
+           compile:   √       √       √
+           test   :           √             junit
+           runtime:           √       √     mysql-connector-java.jar
+           provide:   √       √             servlet jsp
+           system :
+
+           记住: servlet-api ,jsp-api  需要设置以来范围为 provide  其他的皆用默认的 compile 即可
+    -->
+
+    <!--导入 JSP 和 Servlet 依赖-->
+    <!-- jstl 支持 -->
+    <dependency>
+      <!-- jstl 支持 -->
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+  <dependency>
+    <!-- servlet编译环境 -->
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <!-- jsp编译环境 -->
+    <groupId>javax.servlet</groupId>
+    <artifactId>jsp-api</artifactId>
+    <version>2.0</version>
+    <scope>provided</scope>
+  </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <configuration>
+            <!-- 指定端口 -->
+            <port>8080</port>
+            <!-- 请求路径 -->
+            <path>/</path>
+            <uriEncoding>utf-8</uriEncoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+
+  <!-- 上传的位置 -->
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
