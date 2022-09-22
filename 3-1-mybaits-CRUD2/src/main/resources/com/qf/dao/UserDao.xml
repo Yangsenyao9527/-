@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+       #{}
+           1. 如果只有一个简单类型（String， 四类八种）， 括号中可以随便写
+           2. 如果有多个参数，可以使用 arg0 、param1 表示第一个元素， arg1，param2表示第二个元素,一次类推
+              @Param 可以指定参数的名称
+           3. 如果有多个参数，可以封装成map集合， #{key} 即可引用参数
+           4. 如果有多个参数，可以封装成 pojo ， #{属性名} 即可引用参数
+
+       面试题 ：
+       ${}: 直接拼接，相当于statement， 容易被注入攻击; 不会转换数据类型，需要手动拼接
+              了解： 如果一个参数，简单类型， 必须这么写：${value}； mybatis 高版本不用
+       #{}: 相当于PreparedStatement中的 占位符 ?
+
+
+   -->
+
+
+<!--namespace = 所需实现的接口全限定名-->
+<mapper namespace="com.qf.dao.UserDao">
+
+    <!--id = 所需重写的接口抽象方法，resultType = 查询后所需返回的对象类型-->
+    <select id="findAll" resultType="user">
+        <!--#{arg0} = 方法的第一个形参-->
+        SELECT * FROM t_users
+    </select>
+
+<!--    根据Id查询-->
+    <select id="findById" resultType="user">
+        select * from t_users where id=#{id}
+    </select>
+
+<!--    根据条件查询(多参数)-->
+    <select id="findByCondition" resultType="user">
+        select * from t_users where id=#{id} and sex=#{sex}
+    </select>
+
+<!--    根据条件查询(Map集合)-->
+    <select id="findByMap" resultType="user">
+        select * from t_users where id =#{id} and sex=#{sex}
+    </select>
+
+<!--    根据条件查询(pojo)-->
+<!--
+        &: 匹配多位
+        _: 匹配一位
+
+          "%"#{name}"%": 查询包 某名称的 数据
+        concat("%", #{name}, "%"): 把三个字符拼接到了一起， 多个数据库通用
+-->
+    <select id="findByBean" resultType="user">
+        select * from t_users where
+        id=${id} and
+        sex ='${sex}'
+        and name like concat(name ,"%" ,"%")
+    </select>
+
+
+    <!--    删除-->
+    <delete id="delete">
+        delete from t_users where id=#{id}
+    </delete>
+
+    <!--    修改-->
+    <update id="update">
+        UPDATE `t_users` SET  `name`=#{name}, `password`=#{password}, `sex`=#{sex}, `birthday`=#{birthday}, `registTime`=#{registTime} WHERE (`id`=#{id});
+
+    </update>
+    <!--    增加-->
+    <insert id="insert">
+        <!--                <selectKey keyColumn="id" keyProperty="id" resultType="string" order="BEFORE">-->
+        <!--                    select uuid()-->
+        <!--                </selectKey>-->
+        INSERT INTO `t_users` ( `name`, `password`, `sex`, `birthday`, `registTime`) VALUES (#{name},#{password},#{sex},#{birthday},#{registTime});
+
+    </insert>
+</mapper>
