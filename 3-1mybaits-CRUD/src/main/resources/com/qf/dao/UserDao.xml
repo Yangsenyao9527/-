@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace = 所需实现的接口全限定名-->
+<mapper namespace="com.qf.dao.UserDao">
+    <!--id = 所需重写的接口抽象方法，resultType = 查询后所需返回的对象类型-->
+    <select id="findAll" resultType="user">
+        <!--#{arg0} = 方法的第一个形参-->
+        SELECT * FROM t_users
+    </select>
+
+<!--    删除-->
+    <delete id="delete">
+        delete from t_users where id=#{id}
+    </delete>
+
+<!--    修改-->
+    <update id="update">
+        UPDATE `t_users` SET  `name`=#{name}, `password`=#{password}, `sex`=#{sex}, `birthday`=#{birthday}, `registTime`=#{registTime} WHERE (`id`=#{id});
+
+    </update>
+<!--    增加-->
+    <insert id="insert">
+<!--                <selectKey keyColumn="id" keyProperty="id" resultType="string" order="BEFORE">-->
+<!--                    select uuid()-->
+<!--                </selectKey>-->
+        INSERT INTO `t_users` ( `name`, `password`, `sex`, `birthday`, `registTime`) VALUES (#{name},#{password},#{sex},#{birthday},#{registTime});
+
+    </insert>
+</mapper>

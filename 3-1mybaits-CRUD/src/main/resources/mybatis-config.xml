@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+        properties      引入属性文件     ***
+        setting         全局配置        ***
+        typeAliases     设置别名        ***
+        mappers?        映射文件        ***
+        typeHandlers    类型映射， 数据库的varchar映射到java 的 String类型
+        objectFactory           对象工厂
+        objectWrapperFactory    对象工厂
+        reflectorFactory        反射工厂
+        plugins                 插件分页插件
+        environments            数据库环境
+        databaseIdProvider      数据库厂商
+
+-->
+
+    <!--    设置属性,加载属性-->
+    <properties resource="db.properties"></properties>
+
+    <!--    设置别名-->
+    <typeAliases>
+        <!--
+        Mybatis 预定义了很多的别名
+        别名不区分大小写
+-->
+        <!--        给某类配置别名-->
+        <!--        <typeAlias type="com.qf.pojo.User" alias="user"></typeAlias>-->
+        <!--        给包中所有的类配置别名 ,   别名是简单类名-->
+        <package name="com.qf.pojo"/>
+    </typeAliases>
+
+    <!--    数据库环境-->
+    <environments default="development">
+        <environment id="development">
+            <!--            jdbc 的事务 -->
+            <transactionManager type="JDBC"/>
+            <!--              -数据源
+                pooled：连接池，mybatis默认的连接池对象
+                UNPOOLED：非连接池对象
+                JNDI： 提供连接的服务（连接）
+
+                ${}  ognl 表达式(struts2)
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--    关联映射文件-->
+    <mappers>
+        <!--引入 UserDao.xml 映射文件-->
+        <!--<mapper resource="UserDao.xml"/>-->
+        <!--引入映射文件， url路径是绝对路径-->
+        <!--<mapper url="file:///F:\ideaworkspace\project_2206\3-01-mybatis-01\src\main\resources\UserDao.xml"></mapper>-->
+        <!--加载接口类-->
+        <!--
+            前提:
+                1. 接口和映射文件必须在同一包中(编译后在同一个包中)
+                2. 接口和映射文件必须是相同的名称
+                3. 映射文件中namespace必须是接口的全名称
+                4. select |insert|update|delete 的id 必须是方法的名称
+        -->
+        <!--        <mapper resource="com/qf/dao/UserDao.xml"/>-->
+        <!--        按照包加载接口,通过接口加载映射文件-->
+        <package name="com/qf/dao"/>
+    </mappers>
+</configuration>
