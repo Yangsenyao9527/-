@@ -69,22 +69,22 @@
 
   </dependencies>
 
+    <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <configuration>
+              <!-- 指定端口 -->
+              <port>8080</port>
+              <!-- 请求路径 -->
+              <path>/</path>
+              <uriEncoding>utf-8</uriEncoding>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
 
-  <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.tomcat.maven</groupId>
-          <artifactId>tomcat7-maven-plugin</artifactId>
-          <configuration>
-            <!-- 指定端口 -->
-            <port>8080</port>
-            <!-- 请求路径 -->
-            <path>/</path>
-            <uriEncoding>utf-8</uriEncoding>
-          </configuration>
-        </plugin>
-      </plugins>
-    </build>
 
   <!-- 上传的位置 -->
   <distributionManagement>
