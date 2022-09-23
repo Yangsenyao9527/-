@@ -19,6 +19,7 @@ public class MyBatisUtils {
     //获得SqlSession工厂
     private static SqlSessionFactory factory;
 
+
     //创建ThreadLocal绑定当前线程中的SqlSession对象
     private static final ThreadLocal<SqlSession> tl = new ThreadLocal<SqlSession>();
 
